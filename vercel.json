@@ -1,18 +1,14 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    { "source": "/css/:path*", "destination": "/CSS/:path*" },
-    { "source": "/scripts/:path*", "destination": "/Scripts/:path*" }
-  ],
-  "headers": [
+  "version": 2,
+  "functions": {
+    "server.js": {
+      "includeFiles": "{CSS/**,Scripts/**,*.html,*.ico,*.js,*.json,*.png,*.gif}"
+    }
+  },
+  "routes": [
     {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "*" }
-      ]
+      "src": "/(.*)",
+      "dest": "/server.js"
     }
   ]
 }

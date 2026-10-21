@@ -2,8 +2,9 @@
   "name": "mystox",
   "version": "1.0.0",
   "description": "Reverse-engineered MyStox (NIFTY 500) web app with official public endpoints and 30-second live auto-refresh",
+  "main": "server.js",
   "scripts": {
-    "start": "node local-server.js"
+    "start": "node server.js"
   },
   "keywords": [
     "mystox",

@@ -54,19 +54,12 @@ This application communicates directly with the official MyStox public endpoints
 ├── index.html                 # Main SPA application HTML
 ├── package.json               # Node.js project manifest
 ├── vercel.json                # Vercel deployment configuration
-└── local-server.js            # Local HTTP server with CORS support
+└── server.js                  # Production server & Vercel serverless entrypoint
 ```
-
-## Deployment on Vercel
-
-The project is configured for instant, static deployment on Vercel:
-1. Connect your GitHub repository to Vercel.
-2. Leave framework preset as **Other** (Static).
-3. Deploy! Vercel serves all assets directly via Edge CDN.
 
 ## How to Run Locally
 
-1. Open terminal in project root:
+1. Start the server:
    ```powershell
    npm start
    ```
