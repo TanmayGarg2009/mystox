@@ -1,10 +1,9 @@
 {
-  "name": "mystox-remake",
+  "name": "mystox",
   "version": "1.0.0",
-  "description": "Pixel-perfect end-to-end remake of MyStox (NIFTY 500) using official public endpoints and 30-second live auto-refresh",
-  "main": "server.js",
+  "description": "Reverse-engineered MyStox (NIFTY 500) web app with official public endpoints and 30-second live auto-refresh",
   "scripts": {
-    "start": "node server.js"
+    "start": "node local-server.js"
   },
   "keywords": [
     "mystox",

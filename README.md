@@ -18,9 +18,9 @@ This application communicates directly with the official MyStox public endpoints
 2. **30-Second Auto-Refresh Engine (`autorefresh.js`)**:
    - Real-time countdown badge integrated into the navbar displaying `Auto 30s` with a live seconds countdown.
    - Ticking every 30 seconds:
-     - Automatically calls `lastdates.json`, `ticks.txt`, and `stocks_today.json`.
+     - Automatically calls `ticks.txt` and `stocks_today.json`.
      - Updates all stock entries in memory (`window.all_idx` and `window.stocks`).
-     - Triggers `tickupdate()`, refreshing all DOM cards, tables, top gainers, top losers, volume buzzers, and quote tickers.
+     - Triggers `tickupdate()`, refreshing all DOM cards, tables, top gainers, top losers, volume buzzers, and quote tickers without duplicate header buttons.
    - Manual sync: Clicking the `Auto-Refresh` button immediately forces a synchronization and resets the 30-second interval.
 
 3. **Unlocked Features**:
@@ -31,7 +31,6 @@ This application communicates directly with the official MyStox public endpoints
 ## Project Structure
 
 ```
-C:\Users\TANMAY GARG\Desktop\awfdbfcgvhb\
 ├── CSS/
 │   ├── ezcss.css              # Core responsive styling & theme variables
 │   ├── appwall.css            # Wall grid, cards, and table styling
@@ -54,22 +53,24 @@ C:\Users\TANMAY GARG\Desktop\awfdbfcgvhb\
 ├── favicon.ico                # Site favicon
 ├── index.html                 # Main SPA application HTML
 ├── package.json               # Node.js project manifest
-└── server.js                  # Local HTTP server with CORS support
+├── vercel.json                # Vercel deployment configuration
+└── local-server.js            # Local HTTP server with CORS support
 ```
 
-## How to Run
+## Deployment on Vercel
 
-1. Open PowerShell or Terminal in this folder:
+The project is configured for instant, static deployment on Vercel:
+1. Connect your GitHub repository to Vercel.
+2. Leave framework preset as **Other** (Static).
+3. Deploy! Vercel serves all assets directly via Edge CDN.
+
+## How to Run Locally
+
+1. Open terminal in project root:
    ```powershell
-   cd "C:\Users\TANMAY GARG\Desktop\awfdbfcgvhb"
+   npm start
    ```
-
-2. Start the local server:
-   ```powershell
-   node server.js
-   ```
-
-3. Open in your browser:
+2. Open in your browser:
    ```
    http://127.0.0.1:3000/#home/NIFTY500_group
    ```
