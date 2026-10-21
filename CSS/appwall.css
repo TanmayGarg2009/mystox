@@ -1,0 +1,1811 @@
+/* appwall.css — Wall: widget wall (freeflow masonry + terminal docking). Pair with appwall.js. */
+/* =====================================================================================
+   WALL — appwall.css                                                
+   Everything is scoped to .wall (added to your container by dowidgets) and .widget-* classes.
+   NO THEME COLOURS: text colour and backgrounds are inherited from your page, so the same CSS
+   works in light and dark themes.
+     - widgets / panes / slides use background-color:inherit -> they take your container's
+       background. Give the container (or its parent chain) a background, e.g.
+       #home{background:inherit} or #home{background:var(--your-bg)}
+     - lines are your text colour at low strength (currentColor mixed with transparent)
+     - hover / header shades are #ccc3 (neutral grey, translucent: reads on light and dark)
+     - dimmed (inactive) tabs are the same text at reduced opacity
+     - only while you interact (drag, drop, resize, splitter hover, focus) the blue --accent shows
+   Tooltips (black pills): any [data-tip] inside .wall (pure CSS).
+   ===================================================================================== */
+.wall,
+.wall-term,
+.carousel {
+  --line: #8884;
+  --line: color-mix(in srgb, currentColor 16%, transparent);
+  /* borders */
+  --line2: #8888;
+  --line2: color-mix(in srgb, currentColor 40%, transparent);
+  /* grip, dashed outlines */
+  --shade: #ccc3;
+  /* hover / header shade */
+  --dim: .45;
+  /* inactive tab opacity */
+  --accent: #2962ff;
+  --drop: rgba(41, 98, 255, .16);
+  /* drag / drop / resize */
+  --shadow: 0 1px 2px rgba(0, 0, 0, .04);
+  --lift: 0 14px 34px rgba(0, 0, 0, .18);
+  /* dragged widget */
+}
+
+:where(.wall, .wall-term) {
+  background-color: inherit
+}
+
+/* zero specificity: your own rule wins */
+.wall,
+.wall *,
+.wall *::before,
+.wall *::after {
+  box-sizing: border-box
+}
+
+.wall {
+  position: relative;
+  min-height: 200px
+}
+
+.widget {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: inherit;
+  border: 1px solid var(--line);
+  border-radius: var(--widget-r, 16px);
+  box-shadow: var(--shadow);
+  z-index: 2;
+  transition: transform .28s cubic-bezier(.2, .8, .2, 1), width .28s cubic-bezier(.2, .8, .2, 1), height .28s cubic-bezier(.2, .8, .2, 1), box-shadow .2s
+}
+
+.widget.dragging,
+.widget.resizing {
+  transition: box-shadow .2s;
+  z-index: 50;
+  box-shadow: var(--lift)
+}
+
+.widget.settling {
+  z-index: 40
+}
+
+.widget-head {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 8px 6px 22px;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation
+}
+
+.widget-title {
+  display: flex;
+  align-items: center;
+  max-width: max-content;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 26px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+  -webkit-user-drag: none;
+  cursor: pointer
+}
+
+/* title link: soft two-tone "button" on hover (padding offset by negative margin: text never moves) */
+.widget-title {
+  padding: 0 7px;
+  margin: 0 -7px;
+  border-radius: 7px;
+  transition: background-color .12s, color .12s
+}
+
+.widget-title:hover {
+  background: var(--shade);
+  text-decoration: none
+}
+
+.widget-title:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px
+}
+
+.widget.minimized .widget-title:hover {
+  background: none
+}
+
+/* header icons: overlay the header, only shown while hovering THAT widget (always on touch) */
+.widget-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 7px;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0
+}
+
+.widget-btn svg {
+  opacity: .6
+}
+
+.widget-btn:hover {
+  background: var(--shade)
+}
+
+.widget-btn:hover svg {
+  opacity: 1
+}
+
+.widget-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px
+}
+
+/* tab groups in the grid: swipe / click titles only — no arrows or dots */
+.widget-group .car-arrow,
+.widget-group .car-dots {
+  display: none !important
+}
+
+/* close "x" lives inside the title link, right of the text; shows on header hover */
+.widget-x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-left: 5px;
+  flex: 0 0 auto;
+  border-radius: 5px;
+  color: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .12s, background-color .12s
+}
+
+.widget-x svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor
+}
+
+.widget-tname {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap
+}
+
+.widget-head:hover .widget-title.on .widget-x,
+.widget-title:hover .widget-x,
+.widget-head:focus-within .widget-title.on .widget-x {
+  opacity: 1;
+  pointer-events: auto
+}
+
+.widget-x:hover {
+  background: var(--shade)
+}
+
+.widget.minimized .widget-x {
+  display: none
+}
+
+@media (hover:none) {
+  .widget-title.on .widget-x {
+    opacity: 1;
+    pointer-events: auto
+  }
+}
+
+/* tooltips: pure CSS — any element with data-tip inside the grid (black pill under it) */
+.wall [data-tip] {
+  position: relative
+}
+
+.wall [data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 6px);
+  z-index: 60;
+  transform: translate(-50%, -2px);
+  background: #111;
+  color: #fff;
+  font: 600 12px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+  padding: 5px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .1s, transform .1s, visibility 0s .1s
+}
+
+.wall [data-tip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition-delay: .12s, .12s, .12s
+}
+
+.wall .widget-ctl [data-tip]:last-child::after {
+  left: auto;
+  right: 0;
+  transform: translate(0, -2px)
+}
+
+.wall .widget-ctl [data-tip]:last-child:hover::after {
+  transform: none
+}
+
+.wall .widget-head[data-tip]::after {
+  left: 24px;
+  transform: none
+}
+
+body.busy .wall [data-tip]::after,
+body.swiping .wall [data-tip]::after {
+  display: none
+}
+
+@media (hover:none) {
+  .wall [data-tip]::after {
+    display: none
+  }
+}
+
+.widget-btn svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor
+}
+
+.widget-btn.dots svg {
+  fill: currentColor;
+  stroke: none
+}
+
+/* solid dots (the rule above would outline them) */
+/* controls sit IN the header row, right of the titles, always keeping their place (so the
+     titles never go under them); they just fade in on hover */
+.widget-ctl {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s
+}
+
+.widget:hover .widget-ctl,
+.widget:focus-within .widget-ctl {
+  opacity: 1;
+  pointer-events: auto
+}
+
+/* settings: top-left, in the header's left padding (the title doesn't move); shown on hover */
+.widget-head>.widget-btn.dots {
+  position: absolute;
+  left: 1px;
+  top: 12px;
+  width: 20px;
+  height: 26px;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .12s, background-color .12s
+}
+
+.widget:hover>.widget-head>.widget-btn.dots,
+.widget:focus-within>.widget-head>.widget-btn.dots,
+.widget.showtoolbar>.widget-head>.widget-btn.dots {
+  opacity: 1;
+  pointer-events: auto
+}
+
+.widget.showtoolbar .widget-btn.dots {
+  color: var(--accent);
+  background: var(--drop)
+}
+
+.widget.showtoolbar .widget-btn.dots svg {
+  opacity: 1
+}
+
+.widget.minimized .widget-btn.dots {
+  display: none
+}
+
+.wall .widget-btn.dots[data-tip]::after {
+  left: 0;
+  transform: translate(0, -2px)
+}
+
+.wall .widget-btn.dots[data-tip]:hover::after {
+  transform: none
+}
+
+@media (hover:none) {
+  .widget-head>.widget-btn.dots {
+    opacity: 1;
+    pointer-events: auto;
+    top: 14px
+  }
+}
+
+@media (hover:none) {
+  .widget-ctl {
+    opacity: 1;
+    pointer-events: auto
+  }
+}
+
+/* maximized strip controls: packed like the widget toolbar (icon + tiny borderless number) */
+/* native number inputs (with their own up/down arrows), just small */
+.car-pv:invalid {
+  box-shadow: none;
+  outline: none;
+  border-color: var(--line)
+}
+
+/* tab groups: widgets with identical x,y,w,h share one slot; only the active one is shown */
+.widget.tabhidden {
+  display: none
+}
+
+.wall.maxmode .widget.tabhidden {
+  display: flex
+}
+
+.widget-titles {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain
+}
+
+.widget-titles::-webkit-scrollbar {
+  display: none
+}
+
+.widget-titles.more-r {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent)
+}
+
+.widget-titles.more-l {
+  -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(to left, #000 calc(100% - 28px), transparent)
+}
+
+.widget-titles.more-l.more-r {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent)
+}
+
+/* tab groups in the grid: swipe the body (touch) or scroll sideways on the header (trackpad) */
+.widget-body.swiping {
+  transition: none
+}
+
+@keyframes widget-tab-in-r {
+  from {
+    transform: translateX(40px);
+    opacity: 0
+  }
+
+  to {
+    transform: none;
+    opacity: 1
+  }
+}
+
+@keyframes widget-tab-in-l {
+  from {
+    transform: translateX(-40px);
+    opacity: 0
+  }
+
+  to {
+    transform: none;
+    opacity: 1
+  }
+}
+
+.widget-body.tab-in-r {
+  animation: widget-tab-in-r .26s cubic-bezier(.2, .8, .2, 1)
+}
+
+.widget-body.tab-in-l {
+  animation: widget-tab-in-l .26s cubic-bezier(.2, .8, .2, 1)
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+  .widget-body.tab-in-r,
+  .widget-body.tab-in-l {
+    animation: none
+  }
+}
+
+.widget-titles .widget-title {
+  flex: 0 1 auto;
+  min-width: 0
+}
+
+.widget.tabbed .widget-title {
+  font-weight: 400;
+  opacity: var(--dim)
+}
+
+.widget.tabbed .widget-title.on {
+  font-weight: 800;
+  opacity: 1;
+  flex-shrink: 0
+}
+
+.widget.tabbed .widget-title:not(.on):hover {
+  opacity: .75
+}
+
+.widget-titles {
+  padding: 0 7px;
+  margin: 0 -7px
+}
+
+/* drop-to-merge feedback */
+.widget.mergetarget {
+  box-shadow: 0 0 0 2px var(--accent), var(--lift)
+}
+
+.widget.mergetarget .widget-head {
+  background: var(--drop);
+  border-radius: max(0px, calc(var(--widget-r, 16px) - 1px)) max(0px, calc(var(--widget-r, 16px) - 1px)) 0 0
+}
+
+.widget.merging {
+  opacity: .88
+}
+
+.widget.minimized .widget-body {
+  display: none
+}
+
+/* body fades in once loadwidget() has run for it */
+.widget-body {
+  transition: opacity .2s
+}
+
+.widget:not(.loaded) .widget-body {
+  opacity: 0
+}
+
+.widget.minimized .widget-ctl {
+  display: none !important
+}
+
+.wall.maxmode .widget.minimized .widget-ctl {
+  display: flex !important
+}
+
+.widget.minimized .rh.n,
+.widget.minimized .rh.s {
+  display: none
+}
+
+.widget .i-restore {
+  display: none
+}
+
+.wall.maxmode .widget .i-max {
+  display: none
+}
+
+.wall.maxmode .widget .i-restore {
+  display: block
+}
+
+/* maximized: carousel + underlined sliding tabs */
+.wall.maxmode {
+  overflow: hidden
+}
+
+.wall.maxmode .rh,
+.wall.maxmode .widget-btn.min {
+  display: none
+}
+
+.wall.maxmode .widget-head {
+  cursor: default;
+  touch-action: pan-y
+}
+
+.wall.maxmode .widget.minimized .widget-body {
+  display: block
+}
+
+.widget.swiping {
+  transition: none
+}
+
+.widget.dragging .widget-head {
+  cursor: grabbing
+}
+
+.widget-body {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 0 10px 10px;
+  min-height: 0
+}
+
+/* placeholder sits BEHIND the widgets, so it can never hide one */
+.widget-ph {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 2px dashed var(--accent);
+  background: var(--drop);
+  z-index: 1;
+  border-radius: var(--widget-r, 16px);
+  transition: transform .2s cubic-bezier(.2, .8, .2, 1), width .2s, height .2s;
+  display: none
+}
+
+.noanim .widget,
+.noanim .widget-ph {
+  transition: none !important
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+  .widget,
+  .widget-ph {
+    transition: none
+  }
+}
+
+/* resize handles: all 8 sides/corners */
+.rh {
+  position: absolute;
+  z-index: 5;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none
+}
+
+/* edges run between the rounded corners (radius = --widget-r, which follows flags.margin);
+     corners cover the rounded part, so a hover colour on .rh lines up with the card's shape */
+.rh.n,
+.rh.s {
+  left: var(--widget-r, 16px);
+  right: var(--widget-r, 16px);
+  height: 10px;
+  cursor: ns-resize
+}
+
+.rh.e,
+.rh.w {
+  top: var(--widget-r, 16px);
+  bottom: var(--widget-r, 16px);
+  width: 10px;
+  cursor: ew-resize
+}
+
+.rh.n {
+  top: -5px
+}
+
+.rh.s {
+  bottom: -5px
+}
+
+.rh.e {
+  right: -5px
+}
+
+.rh.w {
+  left: -5px
+}
+
+.rh.ne,
+.rh.nw,
+.rh.se,
+.rh.sw {
+  width: max(16px, calc(var(--widget-r, 16px) + 6px));
+  height: max(16px, calc(var(--widget-r, 16px) + 6px))
+}
+
+.rh.ne {
+  top: -6px;
+  right: -6px;
+  cursor: nesw-resize
+}
+
+.rh.sw {
+  bottom: -6px;
+  left: -6px;
+  cursor: nesw-resize
+}
+
+.rh.nw {
+  top: -6px;
+  left: -6px;
+  cursor: nwse-resize
+}
+
+.rh.se {
+  bottom: -6px;
+  right: -6px;
+  cursor: nwse-resize
+}
+
+/* corner grip = a short arc that follows the card's rounded corner (iPad widget style) */
+/* follows the card's rounded corner, 2px inside the border (so it reads as a grip, not border) */
+.rh.se::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: max(10px, calc(var(--widget-r, 16px) - 2px));
+  height: max(10px, calc(var(--widget-r, 16px) - 2px));
+  border-right: 3px solid var(--line2);
+  border-bottom: 3px solid var(--line2);
+  border-bottom-right-radius: max(0px, calc(var(--widget-r, 16px) - 2px));
+  opacity: 0;
+  transition: opacity .15s
+}
+
+.widget:hover .rh.se::after {
+  opacity: 1
+}
+
+.rh.se:hover::after,
+.widget.resizing .rh.se::after {
+  opacity: 1;
+  border-color: var(--accent)
+}
+
+/* press-and-hold feedback: the ring grows during the hold delay, then the widget lifts */
+.widget.holding {
+  box-shadow: 0 0 0 2px var(--accent), var(--shadow);
+  transition-property: transform, width, height, box-shadow;
+  transition-duration: .28s, .28s, .28s, .14s
+}
+
+/* touch screens: bigger grab areas, corner grip always visible */
+@media (pointer:coarse) {
+  .widget-head {
+    padding: 14px 22px 10px
+  }
+
+  .rh.n,
+  .rh.s {
+    height: 22px
+  }
+
+  .rh.n {
+    top: -11px
+  }
+
+  .rh.s {
+    bottom: -11px
+  }
+
+  .rh.e,
+  .rh.w {
+    width: 22px
+  }
+
+  .rh.e {
+    right: -11px
+  }
+
+  .rh.w {
+    left: -11px
+  }
+
+  .rh.ne,
+  .rh.nw,
+  .rh.se,
+  .rh.sw {
+    width: max(32px, calc(var(--widget-r, 16px) + 12px));
+    height: max(32px, calc(var(--widget-r, 16px) + 12px))
+  }
+
+  .rh.ne {
+    top: -12px;
+    right: -12px
+  }
+
+  .rh.nw {
+    top: -12px;
+    left: -12px
+  }
+
+  .rh.se {
+    bottom: -12px;
+    right: -12px
+  }
+
+  .rh.sw {
+    bottom: -12px;
+    left: -12px
+  }
+
+  .rh.se::after {
+    opacity: 1;
+    right: 14px;
+    bottom: 14px
+  }
+}
+
+body.busy,
+body.swiping {
+  user-select: none;
+  -webkit-user-select: none
+}
+
+body.swiping * {
+  cursor: grabbing !important
+}
+
+/* ---- tab groups: one card ("widget-group") whose body is a docarousel of the member widgets ---- */
+.widget-group>.widget-carousel {
+  flex: 1 1 auto;
+  min-height: 0
+}
+
+.car-slide.widget {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none !important;
+  width: auto !important;
+  height: 100% !important;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transition: none;
+  z-index: auto;
+  overflow: hidden
+}
+
+.car-slide.widget>.widget-head,
+.car-slide.widget>.rh {
+  display: none
+}
+
+.car-slide.widget.tabhidden {
+  display: flex
+}
+
+.widget.minimized>.widget-carousel {
+  display: none
+}
+
+/* ---- doexpand(): the expanded "zoom out" carousel — shared by freeflow and terminal ---- */
+.xv-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 44px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid var(--line)
+}
+
+.xv-tabs {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none
+}
+
+.xv-tabs::-webkit-scrollbar {
+  display: none
+}
+
+.xv-tab {
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 0 16px;
+  border: 0;
+  background: none;
+  color: inherit;
+  opacity: var(--dim);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity .15s
+}
+
+.xv-tab:hover {
+  opacity: .75
+}
+
+.xv-tab.on {
+  opacity: 1
+}
+
+.xv-tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -4px;
+  border-radius: 6px
+}
+
+.xv-ink {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0;
+  border-radius: 3px 3px 0 0;
+  background: currentColor;
+  transition: transform .28s cubic-bezier(.2, .8, .2, 1), width .28s cubic-bezier(.2, .8, .2, 1)
+}
+
+.xv-box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 26px;
+  padding: 0 2px 0 4px;
+  border-radius: 7px;
+  color: inherit
+}
+
+.xv-box svg {
+  opacity: .6
+}
+
+.xv-box svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor
+}
+
+.xv-box input {
+  width: 50px;
+  height: 22px;
+  font: inherit;
+  font-size: 12px;
+  padding: 0 0 0 4px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: transparent;
+  color: inherit
+}
+
+.xv-close {
+  flex: 0 0 auto;
+  margin: 0 2px 0 1px;
+  opacity: 1 !important;
+  pointer-events: auto !important
+}
+
+.xv-side {
+  cursor: pointer
+}
+
+.xv-side>* {
+  pointer-events: none
+}
+
+.xv-noanim>* {
+  transition: none !important
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+  .xv-on>*,
+  .xv-ink {
+    transition: none !important
+  }
+}
+
+/* ---- docarousel(): generic swipe carousel / tabs (reusable anywhere) ---------------------- */
+.carousel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.car-viewport {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  touch-action: pan-y
+}
+
+.carousel.car-noswipe .car-viewport {
+  touch-action: auto
+}
+
+.car-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  will-change: transform
+}
+
+.car-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  height: 100%;
+  overflow: auto
+}
+
+.carousel.car-multi .car-slide+.car-slide {
+  border-left: 1px solid var(--line)
+}
+
+/* subtle, Flickity-like: translucent grey disc, chevron in your text colour */
+.car-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  width: 36px;
+  height: 36px;
+  margin-top: -18px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--shade);
+  color: inherit;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s, background-color .15s
+}
+
+.car-arrow:hover {
+  background: #ccc6
+}
+
+.car-arrow:disabled {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  cursor: default
+}
+
+.car-arrow svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round
+}
+
+.car-prev {
+  left: 10px
+}
+
+.car-next {
+  right: 10px
+}
+
+.carousel:hover .car-arrow {
+  opacity: 1;
+  pointer-events: auto
+}
+
+.carousel:hover .car-arrow:disabled {
+  opacity: .3;
+  pointer-events: none
+}
+
+.car-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s
+}
+
+.carousel:hover .car-dots {
+  opacity: 1;
+  pointer-events: auto
+}
+
+.car-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: .22;
+  cursor: pointer;
+  transition: opacity .2s
+}
+
+.car-dot:hover {
+  opacity: .45
+}
+
+.car-dot.on {
+  opacity: .85
+}
+
+.car-pv {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  z-index: 4;
+  width: 46px;
+  height: 26px;
+  padding: 0 2px 0 8px;
+  font: inherit;
+  font-size: 12px;
+  color: inherit;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--shade);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s
+}
+
+.carousel:hover .car-pv {
+  opacity: 1;
+  pointer-events: auto
+}
+
+@media (hover:none) {
+
+  .car-dots,
+  .car-pv {
+    opacity: 1;
+    pointer-events: auto
+  }
+}
+
+/* number box inside a widget header (tab groups): sits with the other header controls */
+.widget-ctl .car-pv {
+  position: static;
+  opacity: 1;
+  pointer-events: auto;
+  align-self: center;
+  height: 24px;
+  width: 44px;
+  margin: 0 4px
+}
+
+/* maximized view: arrows over the slides */
+/* maximized view: slides move with a plain CSS transition (no per-frame JS) */
+.wall.maxmode .widget {
+  transition: transform .32s cubic-bezier(.2, .8, .2, 1), width .32s, height .32s, opacity .32s, box-shadow .2s
+}
+
+.wall.maxmode .widget.swiping,
+.wall.noanim .widget {
+  transition: none !important
+}
+
+.wall.maxmode .widget {
+  transform-origin: 50% 50%
+}
+
+.car-head {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--line)
+}
+
+.car-head::-webkit-scrollbar {
+  display: none
+}
+
+.car-tab {
+  flex: 0 0 auto;
+  font: inherit;
+  font-weight: 600;
+  padding: 10px 14px;
+  border: 0;
+  background: none;
+  color: inherit;
+  opacity: var(--dim);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity .15s
+}
+
+.car-tab:hover {
+  opacity: .75
+}
+
+.car-tab.on {
+  opacity: 1
+}
+
+.car-ink {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1), width .3s cubic-bezier(.2, .8, .2, 1)
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+  .car-track,
+  .car-ink {
+    transition: none
+  }
+}
+
+/* =====================================================================================
+   TERMINAL MODE CSS  (flags.mode = 'terminal')          >>> separate block <<<
+   Delete from here to "END OF TERMINAL MODE CSS" to remove terminal mode completely.
+   Everything is scoped to .wall-term (set on the container by doterminal()).
+   ===================================================================================== */
+/* VS Code look: panes joined by 1px lines, square corners, flat tabs.
+     Colours: none — backgrounds inherit from your container, lines come from your text colour,
+     the tab bar is a #ccc3 shade, inactive tabs are dimmed with opacity. */
+.wall-term {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px
+}
+
+.wall-term,
+.wall-term *,
+.wall-term *::before,
+.wall-term *::after {
+  box-sizing: border-box
+}
+
+.term-main {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+  border: 1px solid var(--line);
+  background-color: inherit
+}
+
+.term-hint {
+  margin: auto;
+  opacity: .6
+}
+
+/* layout tree: panels (row / column) of stacks, splitters between */
+.term-panel {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  background-color: inherit
+}
+
+.term-panel.row {
+  flex-direction: row
+}
+
+.term-panel.column {
+  flex-direction: column
+}
+
+.term-panel.row.flip {
+  flex-direction: column
+}
+
+.term-panel.column.flip {
+  flex-direction: row
+}
+
+/* splitter = the 1px line between two panes (flags.termgap wide); the grab area reaches 3px past it */
+.term-split {
+  flex: 0 0 var(--term-gap, 1px);
+  position: relative;
+  z-index: 5;
+  touch-action: none
+}
+
+.term-split::before {
+  content: "";
+  position: absolute;
+  inset: 0 -3px
+}
+
+.term-panel.column>.term-split::before,
+.term-panel.row.flip>.term-split::before {
+  inset: -3px 0
+}
+
+.term-panel.row>.term-split,
+.term-panel.column.flip>.term-split {
+  cursor: col-resize
+}
+
+.term-panel.column>.term-split,
+.term-panel.row.flip>.term-split {
+  cursor: row-resize
+}
+
+.term-split::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  background: var(--line);
+  transition: background .1s
+}
+
+.term-panel.row>.term-split::after,
+.term-panel.column.flip>.term-split::after {
+  top: 0;
+  bottom: 0;
+  left: calc(50% - .5px);
+  width: 1px
+}
+
+.term-panel.column>.term-split::after,
+.term-panel.row.flip>.term-split::after {
+  left: 0;
+  right: 0;
+  top: calc(50% - .5px);
+  height: 1px
+}
+
+/* hover / drag: a 4px blue bar (VS Code's sash) */
+.term-split:hover::after,
+.term-split.on::after {
+  background: var(--accent);
+  transition-delay: .15s
+}
+
+.term-panel.row>.term-split:hover::after,
+.term-panel.row>.term-split.on::after,
+.term-panel.column.flip>.term-split:hover::after,
+.term-panel.column.flip>.term-split.on::after {
+  left: calc(50% - 2px);
+  width: 4px
+}
+
+.term-panel.column>.term-split:hover::after,
+.term-panel.column>.term-split.on::after,
+.term-panel.row.flip>.term-split:hover::after,
+.term-panel.row.flip>.term-split.on::after {
+  top: calc(50% - 2px);
+  height: 4px
+}
+
+.term-split.on::after {
+  transition-delay: 0s
+}
+
+/* a stack = one pane with tabs (one per widget); no border or radius, the splitters draw the lines */
+.term-stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-width: 80px;
+  min-height: 60px;
+  background-color: inherit;
+  border: 0;
+  border-radius: 0;
+  overflow: hidden
+}
+
+/* tab bar: #ccc3 shade (drawn by ::before, so the tabs can still inherit the pane background);
+     flat square tabs, 1px separators, the active tab takes the pane background and joins the content */
+.term-head {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: stretch;
+  flex: 0 0 auto;
+  height: 35px;
+  padding: 0;
+  background-color: inherit;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none
+}
+
+.term-head::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--shade);
+  z-index: 0;
+  pointer-events: none
+}
+
+.term-head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--line);
+  z-index: 0;
+  pointer-events: none
+}
+
+.term-tabs {
+  display: flex;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  background-color: inherit
+}
+
+.term-tabs::-webkit-scrollbar {
+  display: none
+}
+
+.term-tab {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 0 30px 0 12px;
+  margin: 0;
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 34px;
+  cursor: grab;
+  white-space: nowrap;
+  touch-action: pan-x
+}
+
+.term-tab>a {
+  opacity: var(--dim);
+  transition: opacity .1s
+}
+
+.term-tab:hover>a {
+  opacity: .75
+}
+
+.term-tab.on {
+  z-index: 2;
+  background-color: inherit;
+  height: 35px
+}
+
+.term-tab.on>a {
+  opacity: 1
+}
+
+.term-tab.drag {
+  opacity: .35
+}
+
+.term-tab a {
+  color: inherit;
+  text-decoration: none;
+  -webkit-user-drag: none
+}
+
+/* × sits in the tab's right padding: shown on the active tab and on hover */
+.wall-term .term-tab .term-x {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  margin-top: -10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .1s, background-color .1s
+}
+
+.term-x svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor
+}
+
+.wall-term .term-tab.on .term-x,
+.wall-term .term-tab:hover .term-x {
+  opacity: 1;
+  pointer-events: auto
+}
+
+.wall-term .term-tab .term-x:hover {
+  background: var(--shade)
+}
+
+.term-tools {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+  padding: 0 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s
+}
+
+.term-stack:hover .term-tools,
+.term-stack:focus-within .term-tools {
+  opacity: 1;
+  pointer-events: auto
+}
+
+.term-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0
+}
+
+.term-btn svg {
+  opacity: .6
+}
+
+.term-btn:hover {
+  background: var(--shade)
+}
+
+.term-btn:hover svg {
+  opacity: 1
+}
+
+.term-btn svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor
+}
+
+.wall-term .term-tools>.term-btn.dots {
+  width: 22px
+}
+
+.term-btn.dots svg {
+  fill: currentColor;
+  stroke: none
+}
+
+.term-stack.showtoolbar .term-tools {
+  opacity: 1;
+  pointer-events: auto
+}
+
+.term-stack.showtoolbar .term-btn.dots {
+  color: var(--accent);
+  background: var(--drop)
+}
+
+.term-stack.showtoolbar .term-btn.dots svg {
+  opacity: 1
+}
+
+@media (hover:none) {
+
+  .term-tools,
+  .term-tab.on .term-x {
+    opacity: 1;
+    pointer-events: auto
+  }
+}
+
+/* tooltips (pure CSS, same as freeflow) */
+.wall-term [data-tip] {
+  position: relative
+}
+
+.wall-term [data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 60;
+  background: #111;
+  color: #fff;
+  font: 600 12px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+  padding: 5px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .1s, visibility 0s .1s
+}
+
+.wall-term [data-tip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: .12s, .12s
+}
+
+body.term-dragging .wall-term [data-tip]::after {
+  display: none
+}
+
+@media (hover:none) {
+  .wall-term [data-tip]::after {
+    display: none
+  }
+}
+
+/* the widget elements (yours: el / el.querySelector('.widget-body')) live in the stack body */
+.term-body {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  background-color: inherit
+}
+
+.wall-term .widget {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  top: 0;
+  display: none;
+  flex-direction: column;
+  transform: none !important;
+  width: auto !important;
+  height: auto !important;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transition: none;
+  z-index: auto;
+  background-color: inherit
+}
+
+.wall-term .widget.on {
+  display: flex
+}
+
+.wall-term .widget-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 4px 10px 8px;
+  opacity: 1
+}
+
+/* docking */
+.term-ov {
+  position: absolute;
+  z-index: 40;
+  display: none;
+  pointer-events: none;
+  border: 2px solid var(--accent);
+  background: var(--drop);
+  border-radius: 0;
+  transition: left .06s, top .06s, width .06s, height .06s
+}
+
+.term-ov i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font: 600 11px system-ui, sans-serif;
+  font-style: normal;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 2px;
+  white-space: nowrap
+}
+
+.term-ghost {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: none;
+  padding: 5px 10px;
+  border-radius: 0;
+  font: 600 12px system-ui, sans-serif;
+  background: var(--accent, #2962ff);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .25)
+}
+
+body.term-dragging,
+body.term-dragging * {
+  cursor: grabbing !important;
+  user-select: none !important
+}
+
+body.term-resizing {
+  user-select: none
+}
+
+/* minimized stacks: chips in a footer */
+.term-foot {
+  flex: 0 0 auto;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 2px 0;
+  overflow-x: auto
+}
+
+.term-foot.on {
+  display: flex
+}
+
+.term-chip {
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: inherit;
+  border-radius: 0;
+  padding: 3px 10px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer
+}
+
+.term-chip:hover {
+  background: var(--shade)
+}
+
+.term-chip small {
+  opacity: .55;
+  margin-left: 4px
+}
+
+/* whole stack being dragged by its header */
+.term-stack.drag {
+  opacity: .45
+}
+
+/* expanded view: every widget as a slide, tabs on top (like freeflow) */
+.wall-term.term-mxon .term-main> :not(.term-mx):not(.term-ov) {
+  visibility: hidden
+}
+
+.term-mx {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+  background-color: inherit
+}
+
+.term-slide {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: inherit;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  overflow: hidden;
+  transform-origin: 50% 50%;
+  transition: transform .32s cubic-bezier(.2, .8, .2, 1), width .32s cubic-bezier(.2, .8, .2, 1), opacity .32s
+}
+
+.term-slide-head {
+  flex: 0 0 auto;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 35px;
+  background: var(--shade);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none
+}
+
+.term-slide-body {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  background-color: inherit
+}
+
+.term-slide.side {
+  cursor: pointer
+}
+
+.term-slide.side>* {
+  pointer-events: none
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .term-slide {
+    transition: none
+  }
+}
+
+/* ============================== END OF TERMINAL MODE CSS ============================ */
+/* ============================== END OF LIBRARY CSS ================================== */

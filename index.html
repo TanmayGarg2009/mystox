@@ -1,0 +1,1118 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <!-- <base href="./"> -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Content-Security-Policy" content="frame-src 'self' https://myfno.com https://mystox.com">
+    <meta charset="UTF-8">
+
+ <link async
+        href='https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,900|Open+Sans:100,300,400,500,700,800,900'
+        rel='stylesheet' />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0" />
+  
+     <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js""></script> -->
+
+  <!-- <script rel="preload" src="Scripts/deebee.js?v=2.26j2"></script> -->
+    <script rel="preload" src="Scripts/dexie.min.js?v=2.26j2"></script>
+
+
+    <link async href="CSS/ezcss.css?v=2.26j12" rel="stylesheet" type="text/css" />
+    <link async href="CSS/appwall.css?v=2.26j12" rel="stylesheet" type="text/css" />
+    <script rel="preload" src="Scripts/supabase-js.js"></script>
+    <script rel="preload" src="Scripts/jquery.min.js"></script>
+    <script rel="preload" src="Scripts/appcommon.js?v=2.26j12"></script>
+    <script rel="preload" src="Scripts/appData.js?v=2.26j12"></script>
+    <script rel="preload" src="Scripts/appScripts.js?v=2.26j12"></script>
+    <script defer src="Scripts/appchart.js?v=2.26j12"></script>
+    <script defer src="Scripts/apptechs.js?v=2.26j12"></script>
+    <script defer src="Scripts/appdraw.js?v=2.26j12"></script>
+    <script defer src="Scripts/appgraphs.js?v=2.26j12"></script>
+    <script defer src="Scripts/appoptions.js?v=2.26j12"></script>
+    <script defer src="Scripts/apppatterns.js?v=2.26j12"></script>
+    <script rel="preload" src="Scripts/appWall.js?v=2.26j12"></script>
+
+
+
+
+
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NB25J0VDV4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-NB25J0VDV4');
+    </script>
+
+    <script
+        type="text/javascript">window.$crisp = []; window.CRISP_WEBSITE_ID = "b67ec492-fe9d-426e-a707-9b1fc50e9758"; (function () { d = document; s = d.createElement("script"); s.src = "https://client.crisp.chat/l.js"; s.async = 1; d.getElementsByTagName("head")[0].appendChild(s); })();</script>
+
+    <!-- <script>
+        function openChat() {
+            const w = 380;
+            const h = 600;
+
+            const left = window.screenX + (window.outerWidth - w) / 2;
+            const top = window.screenY + (window.outerHeight - h) / 2;
+
+            window.open(
+                'chat.html',
+                'crispChat',
+                `width=${w},height=${h},left=${left},top=${top},resizable=yes`
+            );
+        }
+    </script> -->
+
+    <script>
+        let crispLoaded = false;
+
+        function initchat() {
+            if (!crispLoaded) {
+                loadCrisp();
+                crispLoaded = true;
+            } else {
+                openChat();
+            }
+        }
+
+        function loadCrisp() {
+            window.$crisp = [];
+            window.CRISP_WEBSITE_ID = "b67ec492-fe9d-426e-a707-9b1fc50e9758";
+            const s = document.createElement("script");
+            s.src = "https://client.crisp.chat/l.js";
+            s.async = true;
+            document.head.appendChild(s);
+            openChat();
+        }
+
+        function openChat() {
+            showmsg("getting support ...")
+
+            if (window.$crisp && window.$crisp.push) {
+                //         $crisp.push(["do", "chat:show"]);
+                $crisp.push(["do", "chat:open"]);
+                //         $crisp.push(["do", "chat:focus"]);
+            } else {
+                setTimeout(openChat, 100);
+            }
+        }
+
+
+    </script>
+
+</head>
+
+
+
+<body class="darks  mystox nogaps fullpanel">
+
+
+    <!-- <canvas id="splashscreen" class="fullwindow" height="950" width="1920"></canvas> -->
+
+    <div id="splashscreen" class="fullwindow centerscreen hides">
+        <img class="logo" src="css/images/launch.png" />
+
+    </div>
+
+
+    <main class="gridflexss">
+        <!-- <button onclick="openChat()">💬 Chat with us</button> -->
+        <!-- <button id="chatBtn" onclick="initchat()">💬 Help </button> -->
+
+        <div id="mainpart">
+            <nav class="menu">
+
+                <a id="logo" href="#home">
+                    <!-- <div id="logo" class="fullwindows ">
+                        <img class="logo" src="css/images/logo.png" />
+                    </div> -->
+                </a>
+                <div id="searchbox" class="dropbox">
+                    <i class="material-symbols-outlined">search</i>
+                    <input id="goto" type="text" autocomplete="off" class="quicksearch" placeholder="" />
+
+                </div>
+                <div id="links" class="links flex">
+                    <a href="#home" data-name="home" class="icononlys"><i
+                            class="material-symbols-outlined">home</i>home</a>
+                    <!-- <a href="#scans" data-name="scans"><i class="material-symbols-outlined">sort</i>scans</a> -->
+                    <!-- <a href="#scans" data-name="scans"><i class="material-symbols-outlined">sensors</i>scans</a> -->
+                    <a href="#scans" data-name="scans"><i class="material-symbols-outlined">radar</i>scans</a>
+                    <a href="#heatmap" data-name="heatmap"><i class="material-symbols-outlined">category</i>map</a>
+                    <a href="#watch" data-name="watch"><i class="material-symbols-outlined">view_headline</i>watch</a>
+                    <!-- <a href="#watch" data-name="watch"><i
+                            class="material-symbols-outlined">format_list_bulleted</i>watch</a> -->
+                    <a href="#charts" data-name="charts"><i class="material-symbols-outlined">show_chart</i>charts</a>
+                    <!-- <a href="#charts" data-name="charts"><i class="material-symbols-outlined">monitoring</i>charts</a> -->
+                    <!-- <a href="#options" data-name="options"><i class="material-symbols-outlined">leaderboard</i>options</a> -->
+                    <!-- <a href="#options" data-name="options"><i class="material-symbols-outlined">link</i>options</a> -->
+                    <a href="#options" data-name="options"><i
+                            class="material-symbols-outlined">align_vertical_bottom</i>options</a>
+                    <!-- <a href="#ticker" data-name="ticker" class="icononlys"><i
+                            class="material-symbols-outlined">tag</i>ticker </a> -->
+                    <a href="#ticker" data-name="ticker" class="icononlys"><i
+                            class="material-symbols-outlined">speed</i>ticker </a>
+
+                    <!-- <a href="#ticker" data-name="ticker" class="icononlys"><i
+                            class="material-symbols-outlined rotate-180">more</i>ticker</a> -->
+                </div>
+
+
+                <div id="idx" class="quote">
+                    <!-- <button> -->
+                    <a class='symbol' href="#ticker/NIFTY">
+                        <b>NIFTY</b>
+                        <span class="xtra"></span>
+                    </a>
+                    <!-- </button> -->
+
+                </div>
+                <div class="rightside nogrow micro ">
+                    <button id="gopro" class="primary hides">
+                        Go PRO
+                    </button>
+                </div>
+                <div id="user" class="rightside nogrow mini micros">
+
+                    <button class="dropbtn noborder"><i class="material-symbols-outlined">person</i></button>
+
+                    <div class="">
+
+                        <div id="settings">
+
+                        </div>
+                        <!-- <button type="button" onclick="resetSettings()">Reset settings</button> -->
+
+                        <div id="userinfo">
+                            <h3>User
+                                <button class="" id="login-button">
+                                    Login
+                                </button>
+                                <button id="logout-button" style="display: none">
+                                    Logout
+                                </button>
+                            </h3>
+                            <div id="user-status"></div>
+                            <div id="plan"></div>
+                            <div id="period"></div>
+                            <div id="validity"></div>
+
+                            <button id="pricing" onclick="showpricing()" class="hides">
+                                Pricing
+                            </button>
+                        </div>
+
+                        <br>
+
+                        <!-- <a href="privacy.html">Privacy policy </a> -->
+
+
+                    </div>
+
+
+
+                </div>
+            </nav>
+
+
+
+
+            <!-- <header id="headermain" class="menuss toolbar ">
+
+            </header> -->
+
+            <header id="headermain" class="menuss toolbar ">
+
+                <!-- <div id="filterbox">
+
+                </div> -->
+
+            </header>
+
+
+
+
+
+            <article id="main">
+
+            </article>
+
+        </div>
+        <div id="divider" class="divider"></div>
+        <div id="others" class="hide">
+
+
+
+            <!-- <button id="btnpanel" onclick="togglepanel()" class="topright mini">
+                <i class="material-symbols-outlined">keep</i>
+            </button> -->
+
+            <!-- <button id="btnresize" onclick="resizepanel()" class="middleleft noborder mini semihide"> <i
+                    class="material-symbols-outlined">arrow_range</i> </button> -->
+
+
+            <article id="ticker" class="hide popdiv" popover="manual">
+
+                <div id="tickerscreen" class="radiotabs underline" onchange="changescreen(event)">
+                    <input type="radio" id="radio_charts" name="radiotabs" checked>
+                    <label for="radio_charts">Charts</label>
+                    <input type="radio" id="radio_options" name="radiotabs">
+                    <label for="radio_options" id="label_options">Options</label>
+                    <input type="radio" id="radio_watch" name="radiotabs">
+                    <label for="radio_watch">Watch</label>
+                    <input type="radio" id="radio_ticker" name="radiotabs">
+                    <label for="radio_ticker">Ticker</label>
+                </div>
+                <div id="tickercontent">
+
+                </div>
+
+            </article>
+
+            <article id="stocks" class="hide popdiv" popover="manual"></article>
+
+        </div>
+
+        <div id="sidebar" class="hide sidebar">
+            <h3>alerts</h3>
+            <article id="alerts"></article>
+        </div>
+
+
+
+    </main>
+    <progress style="display: none;" id="progressBar" value="0" max="100"> 0% </progress>
+
+
+    <dialog id="loginDialog" style="width:300px" class="relative center rounded pad10">
+        <button class="close-menu" id="closeBtn" type="button">&times;</button>
+
+        <h2>1-click Sign in : </h2>
+
+        <!-- <label for="email"> email address</label> -->
+        <input type="email" id="email" style="width:250px; border:2px solid #6666" class="bigss  block pad10 margin10"
+            placeholder="Email address" autocomplete="email">
+
+        <button id="sendBtn" class="primary">Get Login Link</button>
+
+        <div id="status"></div>
+        <br>
+    </dialog>
+
+
+    <div id="filterset" popover="auto" class=" popupsss">
+        <div id="sort_order" class="choose  buttonlist minis flex center" data-name="order">
+            <h4>sort</h4>
+            <button id="_asc" data-name="asc" data-title="asc">▲ asc</button>
+            <button id="_desc" data-name="desc" data-title="desc">▼ desc</button>
+            <button id="_both" data-name="both"> both </button>
+        </div>
+
+        <!-- <form autocomplete="off"> -->
+        <fieldset class="flex center wrap  ">
+
+            <h4>filter</h4>
+
+            <div class="flex100">
+                <label for="filterfield">Data</label>
+                <select id="filterfield" style="width: 120px;">
+                    <option value="">data</option>
+                </select>
+                <!-- <input type="text" id="filterfield" placeholder="" style="width: 150px;"> -->
+
+            </div>
+
+            <div>
+                <select id="filterinterval" disabled class="hide" style="width: 80px;">
+                    <option value="">interval</option>
+                    <option value="5min">5min</option>
+                    <option value="15min">15min</option>
+                    <option value="60min">60min</option>
+                    <option value="day">day</option>
+                    <option value="week">week</option>
+                    <option value="month">month</option>
+                    <option value="quarter">quarter</option>
+                    <option value="year">year</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="filteroperation">Operation</label>
+                <select id="filteroperation" style="width: 28px; appearance: none;">
+                    <option value=""> ?? operation</option>
+                    <option value="gte">&gt;= greater or equals</option>
+                    <option value="lte"> &lt;= lesser or equals</option>
+                    <option value="eq">== equals</option>
+                    <option value="neq">!== not equals</option>
+                    <option value="in"> &lt;&gt; inside</option>
+                    <option value="out">&gt;&lt; outside</option>
+                    <option value="gt">&gt;&gt; greater than</option>
+                    <option value="lt"> &lt;&lt; lesser than</option>
+                    <option value="has">~~ has</option>
+                    <!-- <option value="any">## any of</option> -->
+                </select>
+            </div>
+            <div>
+                <label for="filtervalue">Value</label>
+                <input type="text" id="filtervalue" placeholder="value" style="width: 80px;">
+
+            </div>
+
+        </fieldset>
+        <div class="buttonset" style="margin:15px 0 -5px">
+            <button id="addfilter" onclick="filter_add()" data-index="-1" class="button small">+
+                Add</span>
+                <button id="delfilter" onclick="filter_del()" data-index="-1" class="button small">-
+                    Remove</span>
+        </div>
+        <!-- </form> -->
+    </div>
+
+
+    <button id="btnalerts" onclick="togglealerts()" class="topright mini margin10 main">
+        <span data-title="alerts">
+            <i class="material-symbols-outlined">notifications</i>
+
+        </span>
+    </button>
+
+    <dialog id="outside">
+        <iframe src=""></iframe>
+        <button class="close-menu noborder big" onclick="this.closest('dialog').close()"><i
+                class="material-symbols-outlined  ">close</i></button>
+    </dialog>
+
+    <div id='mytip' class="mytip inview card scripinfo filter" onclick="$(this).fadeOut();">
+        <div id="myinfo" class="single"></div>
+    </div>
+
+    <div id="share" popover="manual">
+        <a>
+            <img>
+        </a>
+        <p class="url selectall"></p>
+        <div class="buttonlist">
+            <button id="share_x" onclick="shareurl(this)" data-val="x">X</button>
+            <button id="share_whatsapp" onclick="shareurl(this)" data-val="whatsapp">whatsapp</button>
+            <button id="share_telegram" onclick="shareurl(this)" data-val="telegram">telegram</button>
+
+        </div>
+        <br>
+        <!-- <i class="mini">NOTE: the <b>URL</b> is copied to your clipboard & ready to paste . <br> But when you click on
+            share
+            buttons above, the screenshot image will be copied to clipboard . you can then PASTE it in your shared
+            message which already has the URL in it</i> -->
+
+    </div>
+
+    <div id="toast-container"></div>
+    <!-- <div id="toolbarmain" class="toolbar hides"></div> -->
+
+
+    <!-- <div id="tooltip"></div>
+    <div id="selectionList">Selected: None</div> -->
+
+
+    <template id="confirm">
+        <dialog class="confirm">
+            <p class="msg"></p>
+            <div class="actions">
+                <button type="button" value="cancel">Cancel</button>
+                <button type="button" value="ok" autofocus>OK</button>
+            </div>
+        </dialog>
+    </template>
+
+
+    <!-- <template id="panelgroup">
+        <div class="panel top"></div>
+        <div class="middle">
+            <div class="panel left"></div>
+            <div class="panel center"></div>
+            <div class="panel right"></div>
+        </div>
+        <div class="panel bottom"></div>
+    </template> -->
+
+    <template data-drawbar>
+        <div class="drawbar" data-drawbar>
+            <button class="collapse" data-act="collapse" title="collapse">&#8249;</button>
+
+            <div class="tools">
+                <button data-tool="select" class="on" title="select">&#8598;</button>
+                <button data-tool="tline" title="trend line">&#9585;</button>
+                <button data-tool="rline" title="ray">&#8599;</button>
+                <button data-tool="xline" title="extended line">&#8596;</button>
+                <button data-tool="hline" title="horizontal line">&#8213;</button>
+                <button data-tool="vline" title="vertical line">&#9474;</button>
+                <button data-tool="rect" title="rectangle">&#9645;</button>
+                <button data-tool="ellipse" title="ellipse">&#9711;</button>
+                <button data-tool="fib" title="fib retracement">&#8801;</button>
+                <button data-tool="text" title="text">T</button>
+                <button data-tool="off" title="pan only">&#9995;</button>
+                <hr>
+                <input type="color" class="pen" data-pen="color" value="#888" list="dc-colors" title="colour">
+                <select class="pen" data-pen="width" title="line width">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                <select class="pen" data-pen="dash" title="dash style">
+                    <option value="0" selected>&#9473;&#9473;</option>
+                    <option value="1">&#9548;&#9548;</option>
+                    <option value="2">&#183;&#183;&#183;</option>
+                    <option value="3">&#9472; &#9472;</option>
+                    <option value="4">&#8942;</option>
+                    <option value="5">&#9472;&#183;&#9472;</option>
+                </select>
+                <hr>
+                <button data-act="hide" title="show / hide all drawings">&#128065;</button>
+                <button data-act="delete" title="delete selected">&#10005;</button>
+                <button data-act="clear" title="clear all">&#8709;</button>
+                <button data-act="save" title="save">&#8595;</button>
+            </div>
+
+            <!-- native swatches inside the OS colour picker - no custom palette needed -->
+            <datalist id="dc-colors">
+                <option>#F23645</option>
+                <option>#FF6D00</option>
+                <option>#D69E2E</option>
+                <option>#089981</option>
+                <option>#4CAF50</option>
+                <option>#00BCD4</option>
+                <option>#2962FF</option>
+                <option>#7E57C2</option>
+                <option>#AB47BC</option>
+                <option>#EC407A</option>
+                <option>#8D6E63</option>
+                <option>#787B86</option>
+            </datalist>
+        </div>
+    </template>
+
+    <template id="strategybox" class=" relative">
+
+        <div class="strategybox w100">
+            <div class="buttonlist  toprights actionset "><button data-title="apply filter" class="main"
+                    onclick="apply_filter()"><i class="material-symbols-outlined">check</i>Run scan</button><button
+                    data-title="clear / reset conditions" onclick="reset_filter()"><i
+                        class="material-symbols-outlined">delete</i>Clear</button><button
+                    data-title="close &amp; do simple filters" onclick="close_filter()"><i
+                        class="material-symbols-outlined">close</i>Exit</button>
+
+                <div><button><a target="_blank" href="condition-builder-guide.html"><i
+                                class="material-symbols-outlined">help</i>
+                            Guide </a></button></div>
+                <div data-title="match historical conditions"> <input type="checkbox" id="backtest"
+                        onchange="clickbacktest(this)"> <label for="backtest"><b>Backtest</b>
+                    </label>
+                </div>
+            </div>
+            <div id="strategyset" class="relative">
+                <fieldset id="strategyparams">
+                    <div class="flexs">
+                        <label for="entry">Entry</label>
+                        <select id="entry" value="long">
+
+                            <option value="long">Long</option>
+                            <option value="short">Short</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="target">Target %</label>
+                        <input type="number" min="0" value="3" id="target">
+                    </div>
+                    <div>
+                        <label for="stoploss">Stoploss %</label>
+                        <input type="number" min="0" value="3" id="stoploss">
+                    </div>
+                    <div>
+                        <label for="capital">Capital (lacs)</label>
+                        <input type="number" min="1" value="10" id="capital">
+                    </div>
+                    <div>
+                        <label for="pertrade">per.Trade (%)</label>
+                        <input type="number" min="0" value="10" id="pertrade">
+                    </div>
+                    <!-- <div>
+                        <label for="maxdays">Max_candles</label>
+                        <input type="number" min="0" value="0" id="maxdays">
+                    </div> -->
+
+                    <div>
+                        <a class="mini dummybutton" target="_blank" href="myfno-backtest-guide.html"><i
+                                class="material-symbols-outlined">help</i>
+                            Guide </a>
+                    </div>
+                </fieldset>
+
+
+
+                <div id="results">
+                    <!-- UPS / DOWNS -->
+
+                    <div class="card">
+                        <div class="title">
+                            Trade Direction
+                        </div>
+                        <div class="bar-wrap">
+                            <div class="bar-box">
+                                <div class="bar-value" id="upVal">0</div>
+                                <div class="bar up" id="upBar"></div>
+                                <div class="bar-label">Ups</div>
+                            </div>
+
+                            <div class="bar-box">
+                                <div class="bar-value" id="downVal">0</div>
+                                <div class="bar down" id="downBar"></div>
+                                <div class="bar-label">Downs</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- PROFIT LOSS SEMI PIE -->
+
+                    <div class="card">
+
+                        <div class="title">
+                            Profit vs Loss
+                        </div>
+                        <div class="semi-wrap">
+                            <div class="semi" id="semiChart"></div>
+                            <div class="semi-center">
+                                <div class="pnl" id="netPnl">0</div>
+                                <div class="pnl-sub">Net P&L</div>
+                            </div>
+                        </div>
+                        <div class="flex column">
+                            <div class="stat">
+                                <div class="stat-head">Total Profit</div>
+                                <div class="stat-value up" id="profitText">0</div>
+                            </div>
+
+                            <div class="stat">
+                                <div class="stat-head">Total Loss</div>
+                                <div class="stat-value dn" id="lossText">0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WIN LOSS DONUT -->
+
+                    <div class="card">
+
+                        <div class="title">
+                            Win Ratio
+                        </div>
+
+                        <div class="donut-wrap">
+                            <div class="donut" id="donut"></div>
+                            <div class="donut-content">
+                                <div class="donut-value" id="winPercent">0%</div>
+                                <div class="donut-label">Win Rate</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- NET PROFIT -->
+
+                    <div class="card column">
+
+                        <div class="title">
+                            Return On Capital
+                        </div>
+
+                        <div class="big" id="roiText">
+                            0
+                        </div>
+
+                        <div class="sub">
+                            Net Profit as % of Capital Deployed
+                        </div>
+
+                        <div style="margin-top:18px" class="progress">
+                            <div class="progress-bar" id="roiBar"></div>
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+
+
+                <details open id="disclaimer" class="absolutes top0 w100 z10 backbase">
+                    <summary>
+                        DISCLAIMER: Backtested results DO NOT guarantee future performance.
+                        <span class="dummybutton">ok </span>
+                    </summary>
+
+                    <ul class="smallfont">
+                        <!-- <li><b>Backtested results DO NOT guarantee future performance.</b>
+                        </li> -->
+                        <li>
+                            We are NOT SEBI registered investment advisors, research analysts, or portfolio
+                            managers.
+                            The information,
+                            strategies, indicators, signals, and backtest results presented on this platform are
+                            provided solely for educational
+                            and informational purposes and should not be construed as trading, investment or
+                            financial
+                            advice.
+                        </li>
+
+                        <li>
+                            Backtesting is based on historical market data and assumptions. Actual trading results
+                            may
+                            differ significantly due
+                            to market conditions, liquidity, slippage, execution delays, brokerage charges, data
+                            inaccuracies, and other factors
+                            that cannot be fully replicated in a backtest environment.
+                        </li>
+
+                        <li>
+                            All trading and investing involve substantial risk, including the possible loss of
+                            capital.
+                            Users are solely
+                            responsible for evaluating any strategy, conducting their own research, verifying
+                            results
+                            independently, and
+                            assessing whether a strategy is suitable for their financial objectives and risk
+                            tolerance
+                            before taking any trade.
+                        </li>
+
+                        <li>
+                            By using this platform, you acknowledge that any trading or investment decisions made
+                            are
+                            entirely at your own
+                            discretion and risk. We accept no responsibility or liability for any losses, damages,
+                            or
+                            decisions arising from the
+                            use of the information, tools, strategies, or backtest results provided.
+                        </li>
+                    </ul>
+
+
+                    <!-- <li>
+                            We are NOT SEBI registered. All strategies, signals, and backtest results are provided
+                            for informational purposes only. Please do your own analysis and due diligence before taking
+                            any trade or investment decision.
+                        </li> -->
+                </details>
+
+
+
+                <!-- <details>
+                    <summary>trades</summary>
+                    <table id="backtesttrades">
+
+                    </table>
+                </details> -->
+
+            </div>
+
+
+
+
+
+        </div>
+
+
+    </template>
+
+
+
+    <template id="filtergroup">
+        <div class="filtergroup">
+            <div class="match flex aligncenter">
+                <label for="match">Match</label>
+                <select id="match" class="limit" value="0">
+                    <option value="0">AND</option>
+                    <option value="1">OR</option>
+                    <!-- <option value="-1">None</option> -->
+                </select>
+
+                <div>
+                    <button id="addcond" onclick="addcond(this)">+ add</button>
+                    <button id="addgroup" onclick="addgroup(this)">+ group</button>
+                    <button data-title="copy group" title="copy" onclick="copygroup(this)">~</button>
+                    <button data-title="delete group" title="delete" onclick="deletegroup(this)">x</button>
+                </div>
+
+            </div>
+        </div>
+    </template>
+
+    <template id="bracket">
+        <div class="bracket">
+            <div class="lhs expression"></div>
+            <div class="middle"></div>
+            <div class="rhs expression"></div>
+        </div>
+
+    </template>
+
+    <template id="condition">
+        <div id="c0" class="condition flex">
+            <div class="lhs expression ">
+                <!-- <button class="btn" onclick="showfld(this)"> ... </button> -->
+            </div>
+            <div class="middle">
+                <div class="compare">
+                    <label for="filtercompare">Compare</label>
+                    <select id="filtercompare" class="is-sign" class="limit">
+
+                        <option value="">?</option>
+                        <option value="gt"> >> greater than</option>
+                        <option value="lt">
+                            << lesser than</option>
+                                <!-- <option value="gte"> >= greater or equals</option>
+                        <option value="lte">
+                            <= lesser or equals</option> -->
+                        <option value="eq"> == equals</option>
+                        <option value="neq"> !== not equals</option>
+                        <option value="in">
+                            <> inside
+                        </option>
+                        <option value="out"> >< outside</option>
+                        <option value="any"> ~~ any of</option>
+                    </select>
+                </div>
+            </div>
+            <div class="rhs expression">
+                <!-- <button class="btn" onclick="showfld(this)"> ... </button> -->
+            </div>
+
+            <div>
+                <button data-title="copy condition" title="copy" onclick="copyrow(this)">~</button>
+                <button data-title="delete condition" title="delete" onclick="deleterow(this)">x</button>
+            </div>
+        </div>
+    </template>
+
+
+    <template id="field">
+
+        <div class="field ">
+
+            <fieldset class="flex wrapss ">
+
+                <div class="hide">
+                    <label for="filterinterval">Interval</label>
+
+                    <select id="filterinterval" class="hides">
+
+                        <option value=""></option>
+                        <!-- <option value="5min">5min</option>
+        <option value="10min">10min</option>
+        <option value="15min">15min</option>
+        <option value="30min">30min</option>
+        <option value="60min">60min</option> -->
+                        <option value="day">day</option>
+                        <option value="week">week</option>
+                        <option value="month">month</option>
+                        <option value="quarter">quarter</option>
+                        <option value="year">year</option>
+                    </select>
+                </div>
+
+                <!-- <div>
+            <label for="filtertype">Type</label>
+
+            <select id="filtertype" title="type">
+              <option value=""></option>
+              <option value="data">data</option>
+              <option value="number">number</option>
+              <option value="bracket">bracket</option>
+            </select>
+          </div> -->
+
+                <div>
+                    <label for="filterdata">Data</label>
+                    <!-- <input list="filterdatas" id="filterdata"> -->
+                    <select id="filterdata" class="filterdata is-data" onchange="datachange(this)" title="data">
+
+                        <option value=""></option>
+                        <option value="bracket">bracket ()</option>
+                        <option value="number">number #</option>
+                        <hr>
+                        <optgroup class="" label="data">
+                            <option value="price">price</option>
+                            <option value="oi">oi</option>
+                            <option value="volume">volume</option>
+                            <option value="delivery">delivery</option>
+                            <option value="iv">iv</option>
+                            <option value="pcr">pcr</option>
+                            <option value="basis">basis</option>
+                            <option value="rollover">rollover</option>
+                            <option value="vwap">vwap</option>
+                        </optgroup>
+                        <hr>
+                        <optgroup class="" label="alloptions">
+                            <option value="oi_put">oi_put</option>
+                            <option value="oi_call">oi_call</option>
+                            <option value="volume_put">volume_put</option>
+                            <option value="volume_call">volume_call</option>
+                            <option value="iv_put">iv_put</option>
+                            <option value="iv_call">iv_call</option>
+                        </optgroup>
+
+                        <hr>
+                        <optgroup label="candle">
+                            <option value="open">open</option>
+                            <option value="high">high</option>
+                            <option value="low">low</option>
+                            <option value="close">close</option>
+                        </optgroup>
+
+                        <hr>
+                        <optgroup disabledsss class="" label="technicals">
+                            <!-- <option value="sma_10">sma_10</option>
+                            <option value="sma_20">sma_20</option>
+                            <option value="sma_50">sma_50</option>
+                            <option value="sma_100">sma_100</option>
+                            <option value="sma_200">sma_200</option> -->
+                            <option value="sma_x">sma_x</option>
+                            <option value="ema_x">ema_x</option>
+                            <option value="macd_line">macd_line</option>
+                            <option value="macd_signal">macd_signal</option>
+                            <option value="macd_bar">macd_bar</option>
+                            <option value="boli_upper">boli_upper</option>
+                            <option value="boli_lower">boli_lower</option>
+                            <option value="boli_band">boli_band</option>
+                            <option value="boli_range">boli_range%</option>
+                            <option value="rsi">rsi</option>
+                        </optgroup>
+
+                    </select>
+                </div>
+                <div class="sub hide">
+                    <label for="filterfunction">Function</label>
+                    <select id="filterfunction" class="is-tech" title="function">
+
+                        <option value=""></option>
+                        <option value="value">value</option>
+                        <option value="change">change</option>
+                        <option value="percent">%chg</option>
+                        <option value="average">average</option>
+                        <option value="average_percent">avg%</option>
+                        <option value="trend">trend</option>
+                        <option value="range">range(hi-lo)</option>
+                        <option value="range_percent">range%(level)</option>
+                        <!-- <option value="level">level%</option> -->
+                        <option value="percentile">percentile</option>
+                        <!-- <option value="band">band</option> -->
+                        <option value="max">max</option>
+                        <option value="min">min</option>
+                        <!-- <option value="high">high</option>
+                        <option value="low">low</option> -->
+                        <option value="ups">ups</option>
+                        <option value="downs">downs</option>
+                    </select>
+                </div>
+
+                <div class="sub hide">
+                    <label for="filterbars">candles</label>
+                    <!-- <input type="number" value="0" id="filterbars" min="0" placeholder=""> -->
+
+                    <select id="filterbars" class="is-candle" onchange="barchange(this)" title="bars">
+
+                        <option value="0">all</option>
+                        <option value="x">X</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+
+                    </select>
+
+                </div>
+                <div class="sub hide">
+                    <label for="filteroffset">Offset</label>
+                    <!-- <input type="number" value="0" id="filteroffset" min="0" placeholder=""> -->
+                    <select id="filteroffset" class="is-candle" onchange="barchange(this)" title="offset">
+
+                        <option value="0">0</option>
+                        <option value="x">X</option>
+                        <option value="-1">-1</option>
+                        <option value="-2">-2</option>
+                        <option value="-3">-3</option>
+                        <option value="-5">-5</option>
+                        <option value="-10">-10</option>
+                        <option value="-20">-20</option>
+                        <option value="-30">-30</option>
+                        <option value="-50">-50</option>
+                        <option value="-100">-100</option>
+                    </select>
+                </div>
+
+                <div class="value hide">
+                    <label for="filtervalue">Value</label>
+                    <!-- <input type="number" value="0" id="filtervalue" placeholder=""> -->
+                    <select id="filtervalue" class="is-sign" onchange="barchange(this)" title="value">
+
+                        <option value="0">0</option>
+                        <option value="x">X</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                        <option value="60">60</option>
+                        <option value="70">70</option>
+                        <option value="80">80</option>
+                        <option value="90">90</option>
+                        <option value="100">100</option>
+                        <option value="-1">-1</option>
+                        <option value="-2">-2</option>
+                        <option value="-3">-3</option>
+                        <option value="-5">-5</option>
+                        <option value="-10">-10</option>
+                    </select>
+
+                </div>
+
+
+
+            </fieldset>
+        </div>
+
+
+
+
+
+
+    </template>
+
+    <template id="operation">
+        <div class="operation">
+            <label for="filteroperation">math</label>
+            <select id="filteroperation" class="is-math" onchange="makeoperation(this)" class="limit">
+                <option value=""></option>
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+
+            </select>
+        </div>
+    </template>
+    <!-- 
+
+    <template id="chart-toolbar-template">
+        <div class="ctb">
+            <button data-tool="cursor" title="Cursor / select">↖</button>
+            <button data-tool="trendline" title="Trend line">╱</button>
+            <button data-tool="hline" title="Horizontal line">─</button>
+            <button data-tool="vline" title="Vertical line">│</button>
+            <button data-tool="ray" title="Ray">➔</button>
+            <button data-tool="rect" title="Rectangle">▭</button>
+            <button data-tool="ellipse" title="Ellipse">◯</button>
+            <button data-tool="fib" title="Fibonacci">≣</button>
+            <button data-tool="text" title="Text">T</button>
+            <span class="ctb-sep"></span>
+            <input data-draw-color type="color" title="Colour" value="#2962ff">
+            <select data-draw-width title="Width"></select>
+            <select data-draw-dash title="Dash"></select>
+            <span class="ctb-sep"></span>
+            <button data-act="delete" title="Delete selected">🗑</button>
+            <button data-act="clear" title="Clear all drawings">clr</button>
+            <button data-act="log" title="Log price scale">log</button>
+            <button data-act="fit" title="Reset view">fit</button>
+        </div>
+    </template>
+
+    <template id="chart-series-editor-template">
+        <div class="cse">
+            <div class="cse-title" data-se="name"></div>
+            <label data-label="Type"> <select data-se="ctype"></select></label>
+            <label data-label="Colour"> <input data-se="color" type="color"></label>
+            <label data-label="Down"> <input data-se="downColor" type="color"></label>
+            <label data-label="Width"> <select data-se="width"></select></label>
+            <label data-label="Dash"> <select data-se="dash"></select></label>
+            <label data-label="Overlay"> <input data-se="overlap" type="checkbox"></label>
+            <label data-label="Height %"> <input data-se="heightPercent" type="number" min="5" max="100"
+                    step="5"></label>
+            <label data-label="Panel"> <input data-se="panel" type="number" min="0" max="9" step="1"></label>
+            <label data-label="Price 2dp"> <input data-se="price" type="checkbox"></label>
+            <label data-label="Log scale"> <input data-se="log" type="checkbox"></label>
+            <label data-label="Baseline"> <select data-se="baseline"></select></label>
+            <label data-label="Neg colour"><input data-se="negColor" type="color"></label>
+            <div class="cse-foot">
+                <button data-se-act="close">Close</button>
+                <button data-se-act="apply">Apply</button>
+            </div>
+        </div>
+    </template> -->
+
+    <script>
+
+        const divider = document.getElementById("divider")
+        const mainpart = document.getElementById("mainpart")
+        const saved = localStorage.getItem("dividerPosition")
+        if (saved) {
+            mainpart.style.width = saved + "%"
+        }
+
+        // const bodyclass = localStorage.getItem("bodyclass");
+        // if (bodyclass) {
+        //     document.body.classList = bodyclass;
+        // }
+
+        let dragging = false
+
+        divider.addEventListener("mousedown", () => {
+            dragging = true
+        })
+
+        document.addEventListener("mousemove", e => {
+
+            if (!dragging) return
+            const containerWidth = document.body.clientWidth
+            const percent = (e.clientX / containerWidth) * 100
+            mainpart.style.width = percent + "%"
+
+        })
+
+        document.addEventListener("mouseup", () => {
+
+            if (!dragging) return
+            dragging = false
+            const percent = parseFloat(mainpart.style.width)
+            localStorage.setItem("dividerPosition", percent)
+
+        })
+
+
+
+    </script>
+
+    <script defer src="autorefresh.js"></script>
+</body>
+
+
+
+</html>
